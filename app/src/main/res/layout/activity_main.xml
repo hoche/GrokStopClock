@@ -13,10 +13,13 @@
         android:textSize="80dp"
         android:textStyle="bold|italic"
         android:typeface="monospace"
-        android:layout_marginLeft="60dp"
         android:singleLine="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
     <TableLayout
         android:layout_width="fill_parent"
