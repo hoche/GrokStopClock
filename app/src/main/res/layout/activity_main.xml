@@ -6,7 +6,37 @@
     tools:context="com.grok.groknookclock.MainActivity">
 
     <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clock_time"
+        android:text="00:00:00"
+        android:textSize="80dp"
+        android:textStyle="bold|italic"
+        android:typeface="monospace"
+        android:layout_marginLeft="60dp"
+        android:singleLine="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/clock_time"
+        android:layout_above="@+id/save_time_button"
+        android:id="@+id/time_table">
+    </TableLayout>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Mark Time"
+        android:id="@+id/save_time_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:height="100dp"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
 </RelativeLayout>
