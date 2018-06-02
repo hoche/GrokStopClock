@@ -1,4 +1,13 @@
-package com.grok.groknookclock;
+/*
+ * GrokClock MainActivity.java
+ *
+ * Display a clock, a stop button, and the last 10 times.
+ * This mimics the functionality of a TimeWise clock.
+ *
+ * Copyright (C) 2011 Michel Hoche-Mong, hoche@grok.com
+ *
+ */
+package com.grok.grokclock;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,7 +16,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -17,20 +25,20 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-enum eSubTimeType {
-    SECONDS_ONLY,
-    SECONDS_AND_TENTHS,
-    HUNDREDTHS_OF_MINUTE
-}
-
 public class MainActivity extends Activity {
 
     private static final String LOGTAG = "MainActivity";
 
+    enum eSubTimeType {
+        SECONDS_ONLY,
+        SECONDS_AND_TENTHS,
+        HUNDREDTHS_OF_MINUTE
+    }
+
     private Calendar mCalendar;
-    TextView mTvClockTime;
-    eSubTimeType mSubTimeType;
-    Timer mTimer;
+    private TextView mTvClockTime;
+    private eSubTimeType mSubTimeType;
+    private Timer mTimer;
 
     final Handler h = new Handler(new Handler.Callback() {
         @Override
@@ -153,4 +161,5 @@ public class MainActivity extends Activity {
         }
 
     }
+
 }

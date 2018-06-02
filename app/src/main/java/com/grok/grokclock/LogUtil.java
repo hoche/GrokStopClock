@@ -1,25 +1,13 @@
 /*
- * AndroidICB - https://github.com/hoche/AndroidICB
- * A client for the Internet CB Network - http://www.icb.net/
+ * LogUtil.java
  *
- * Copyright (C) 2017 Michel Hoche-Mong
+ * Generic Logging utilities
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * Copyright (C) 2010 Michel Hoche-Mong, hoche@grok.com
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package com.grok.groknookclock;
+package com.grok.grokclock;
 
 import android.util.Log;
 import android.widget.TextView;
@@ -32,6 +20,8 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class LogUtil {
     public final static LogUtil INSTANCE = new LogUtil();
@@ -61,6 +51,27 @@ public class LogUtil {
 
     private LogUtil() {
         // Exists only to defeat instantiation
+    }
+
+    private static final String DATE_STRING="yyyy-MM-dd-HH_mm_ss";
+
+    /**
+     * Given a directory path and a filename, concatenate them together, add the current date
+     * to the filename, and return the resulting string.
+     *
+     * For instance given fileDirPath="/sdcard/myappdir" and baseName="log", the
+     * return value will be something like "/sdcard/myappdir/log_2010-03-22_18_21".
+     *
+     * @param  fileDirPath  The directory path to use
+     * @param  baseName the file name
+     * @return the constructed full filepath
+     */
+    public static String createDatedFilePath(String fileDirPath, String baseName)
+    {
+        long dateTaken = System.currentTimeMillis();
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_STRING);
+        Date date = new Date(dateTaken);
+        return fileDirPath + "/" + dateFormat.format(date) + "_" + baseName;
     }
 
     public synchronized void SetLogFile(String logFileDirPath, String filename) {
@@ -118,7 +129,7 @@ public class LogUtil {
     private synchronized void OpenNewLogFile()
     {
         // create a nice file name, complete with datetime stamp
-        String filepath = PathUtils.createDatedFilePath(mLogFileDirPath, mBaseFileName);
+        String filepath = createDatedFilePath(mLogFileDirPath, mBaseFileName);
 
         // Close the old stream
         if (mFileStream != null) {

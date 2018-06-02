@@ -5,7 +5,7 @@ android {
     buildToolsVersion '23.0.1'
 
     defaultConfig {
-        applicationId "com.grok.groknookclock"
+        applicationId "com.grok.grokclock"
         minSdkVersion 7
         targetSdkVersion 7
         versionCode 1

@@ -1,0 +1,17 @@
+* Create JSON file/JSON parser
+* Hook up button to save times
+* Create History page
+* Create Prefs button/page
+
+Prefs:
+    * 12/24 time
+    * Display sub-seconds
+    * Show/Set disk file location
+    * Clear disk file
+    * Upload host/IP address and port
+    * Upload method (POST?)
+         With upload now button?
+    * Set NTP server
+    * GPS?
+    * require car number to be entered
+    
