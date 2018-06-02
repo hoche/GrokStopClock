@@ -30,20 +30,28 @@ public class TimeStore {
     private static final String LOGTAG = "TimeStore";
 
     private Context mCtxt;
-    private File mDataFile;
     private FileOutputStream mFOut;
     private ArrayList<TimeEntry> mTimes;
 
     public TimeStore(Context ctx) {
         mCtxt = ctx;
+        mTimes = new ArrayList<TimeEntry>();
     }
 
-    private String getDataFileDir() {
+    private String getExternalDataFileDir() {
         return Environment.getExternalStorageDirectory().getAbsolutePath() +
                 "/" + mCtxt.getResources().getString(R.string.app_name);
     }
 
-    private boolean loadFile() {
+    private String getDataFileDir() {
+        return mCtxt.getFilesDir().getAbsolutePath() +
+                "/" + mCtxt.getResources().getString(R.string.app_name);
+    }
+
+    public boolean init() {
+
+        String path = getExternalDataFileDir();
+
         // Return the primary external storage directory. This directory may not currently be
         // accessible if it has been mounted by the user on their computer, has been removed from
         // the device, or some other problem has happened. You can determine its current state
@@ -54,10 +62,10 @@ public class TimeStore {
         // set in the manifest.
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             // TODO: Put up an error message dialog about the SD card not being available and complain
-            return false;
+            path = getDataFileDir();
         }
 
-        String path = getDataFileDir();
+        LogUtil.INSTANCE.d(LOGTAG, "Using datafile in " + path);
 
         final File dir = new File(path);
         if (!dir.exists()) {
@@ -96,8 +104,7 @@ public class TimeStore {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             String line = reader.readLine();
             int lineNo = 1;
-            while (line != null) {
-                line = reader.readLine();
+            while ((line = reader.readLine())!= null) {
                 try {
                     TimeEntry te = new TimeEntry(line);
                     mTimes.add(te);
@@ -106,11 +113,38 @@ public class TimeStore {
                 }
                 ++lineNo;
             }
+            is.close();
         } catch (IOException e) {
             LogUtil.INSTANCE.d(LOGTAG, "Couldn't read data file.");
             return false;
         }
 
+        try {
+            FileOutputStream os = new FileOutputStream(dataFile, true); // open for appending
+            mFOut = os;
+        } catch (IOException e) {
+            LogUtil.INSTANCE.d(LOGTAG, "Couldn't append to data file.");
+            return false;
+        }
+
         return true;
+    }
+
+    public void addToList(TimeEntry te) {
+        mTimes.add(te);
+        if (mFOut != null) {
+            try {
+                mFOut.write(te.toByteArray());
+            } catch (IOException e) {
+                LogUtil.INSTANCE.d(LOGTAG, "Couldn't append to data file.");
+            }
+        }
+    }
+
+    public int getEntryCount() {
+        return mTimes.size();
+    }
+    public ArrayList<TimeEntry> getList() {
+        return mTimes;
     }
 }

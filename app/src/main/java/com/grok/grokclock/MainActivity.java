@@ -16,11 +16,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,16 +32,11 @@ public class MainActivity extends Activity {
 
     private static final String LOGTAG = "MainActivity";
 
-    enum eSubTimeType {
-        SECONDS_ONLY,
-        SECONDS_AND_TENTHS,
-        HUNDREDTHS_OF_MINUTE
-    }
-
     private Calendar mCalendar;
     private TextView mTvClockTime;
-    private eSubTimeType mSubTimeType;
     private Timer mTimer;
+
+    private TimeStore mTimeStore;
 
     final Handler h = new Handler(new Handler.Callback() {
         @Override
@@ -66,9 +64,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         mCalendar = Calendar.getInstance();
+
         mTvClockTime = (TextView) findViewById(R.id.clock_time);
 
-        mSubTimeType = eSubTimeType.SECONDS_ONLY;
+        mTimeStore = new TimeStore(this);
+        mTimeStore.init();
 
         mTimer = new Timer("ClockTimer");
 
@@ -86,6 +86,9 @@ public class MainActivity extends Activity {
         TableLayout table = (TableLayout)findViewById(R.id.time_table);
         table.removeAllViews();
 
+        ArrayList<TimeEntry> timeList = mTimeStore.getList();
+        int entryCount = timeList.size();
+
         LayoutInflater inflater = getLayoutInflater();
 
         for(int i = 0; i < 9; i++) {
@@ -99,11 +102,14 @@ public class MainActivity extends Activity {
                 row.setBackgroundColor(Color.GRAY);
                 entry_num.setText("ID");
                 entry_time.setText("Time");
+            } else if (i > entryCount) {
+                entry_num.setText("--");
+                entry_time.setText("--:--:--");
             } else {
-                entry_num.setText("" + i);
-                entry_time.setText("00:00:0" + i); // set the text for the header
+                TimeEntry te = timeList.get(entryCount - i);
+                entry_num.setText(te.getId());
+                entry_time.setText(te.getTime(TimeEntry.TimeFormat.SECONDS_AND_TENTHS));
             }
-            // other customizations to the row
 
             table.addView(row);
         }
@@ -112,54 +118,42 @@ public class MainActivity extends Activity {
     private void updateTime() {
 
         //LogUtil.INSTANCE.d(LOGTAG, "updateTime()");
-
         mCalendar.setTimeInMillis(System.currentTimeMillis());
 
-        int hours = mCalendar.get(mCalendar.HOUR_OF_DAY);
-        int mins = mCalendar.get(mCalendar.MINUTE);
-        int secs = mCalendar.get(mCalendar.SECOND);
-        int millis = mCalendar.get(mCalendar.MILLISECOND);
+        int hour = mCalendar.get(mCalendar.HOUR_OF_DAY);
+        int min = mCalendar.get(mCalendar.MINUTE);
+        int sec = mCalendar.get(mCalendar.SECOND);
+        int tenth = mCalendar.get(mCalendar.MILLISECOND)/100;
 
-        String displayTime = "";
-
-        switch (mSubTimeType) {
-            case SECONDS_ONLY: {
-                DecimalFormat hf = new DecimalFormat("#0");
-                DecimalFormat df = new DecimalFormat("00");
-                displayTime = hf.format(hours) + ":" +
-                        df.format(mins) + ":" +
-                        df.format(secs);
-            }
-            break;
-
-            case SECONDS_AND_TENTHS: {
-                DecimalFormat hf = new DecimalFormat("#0");
-                DecimalFormat df = new DecimalFormat("00");
-                DecimalFormat sf = new DecimalFormat("0");
-                displayTime = hf.format(hours) + ":" +
-                        df.format(mins) + ":" +
-                        df.format(secs) + "." +
-                        sf.format(millis / 100);
-            }
-            break;
-
-            case HUNDREDTHS_OF_MINUTE: {
-                DecimalFormat hf = new DecimalFormat("#0");
-                DecimalFormat df = new DecimalFormat("00");
-                displayTime = hf.format(hours) + ":" +
-                        df.format(mins) + ":" +
-                        df.format(((secs * 1000) + millis)/600);
-            }
-            break;
-        }
+        TimeEntry te = new TimeEntry("", 0, 0, 0, hour, min, sec, tenth);
+        String displayTime = te.getTime(TimeEntry.TimeFormat.SECONDS_ONLY);
 
         // Only change if necessary to reduce flicker
-        // Investigate to see if it's worthwhile just updating the seconds
+        // TODO: Investigate to see if it's worthwhile just updating the seconds
         String oldDisplayTime = mTvClockTime.getText().toString();
         if (!oldDisplayTime.equals(displayTime)) {
             mTvClockTime.setText(displayTime);
         }
 
+    }
+
+    /** Called when the user touches the SaveTime button */
+    public void saveTime(View view) {
+        mCalendar.setTimeInMillis(System.currentTimeMillis());
+        // Do something in response to button click
+        int year = mCalendar.get(mCalendar.YEAR);
+        int month = mCalendar.get(mCalendar.MONTH);
+        int day = mCalendar.get(mCalendar.DAY_OF_MONTH);
+        int hour = mCalendar.get(mCalendar.HOUR_OF_DAY);
+        int min = mCalendar.get(mCalendar.MINUTE);
+        int sec = mCalendar.get(mCalendar.SECOND);
+        int tenth = mCalendar.get(mCalendar.MILLISECOND)/100;
+
+        TimeEntry te = new TimeEntry(Integer.toString(mTimeStore.getEntryCount()),
+                year, month, day, hour, min, sec, tenth);
+
+        mTimeStore.addToList(te);
+        redrawTimeLayout();
     }
 
 }

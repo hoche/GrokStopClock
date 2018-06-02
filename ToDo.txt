@@ -1,7 +1,9 @@
-* Create JSON file/JSON parser
-* Hook up button to save times
+X Create CSV file/CSV parser - done
+X Hook up button to save times - done
 * Create History page
 * Create Prefs button/page
+
+* Keep Nook awake when necessary
 
 Prefs:
     * 12/24 time
