@@ -17,12 +17,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
@@ -77,13 +75,13 @@ public class MainActivity extends Activity {
         // redraw.
         mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 200);
 
-        redrawTimeLayout();
+        redrawTimeList();
         updateTime();
+
     }
 
-    protected void redrawTimeLayout()
-    {
-        TableLayout table = (TableLayout)findViewById(R.id.time_table);
+    protected void redrawTimeList() {
+        TableLayout table = (TableLayout) findViewById(R.id.time_table);
         table.removeAllViews();
 
         ArrayList<TimeEntry> timeList = mTimeStore.getList();
@@ -91,11 +89,11 @@ public class MainActivity extends Activity {
 
         LayoutInflater inflater = getLayoutInflater();
 
-        for(int i = 0; i < 9; i++) {
-            TableRow row = (TableRow)inflater.inflate(R.layout.time_table_row, table, false);
+        for (int i = 0; i < 9; i++) {
+            TableRow row = (TableRow) inflater.inflate(R.layout.time_table_row, table, false);
 
-            TextView entry_num = (TextView)row.findViewById(R.id.entry_number);
-            TextView entry_time = (TextView)row.findViewById(R.id.entry_time);
+            TextView entry_num = (TextView) row.findViewById(R.id.entry_number);
+            TextView entry_time = (TextView) row.findViewById(R.id.entry_time);
 
             if (i == 0) {
                 // title row
@@ -123,7 +121,7 @@ public class MainActivity extends Activity {
         int hour = mCalendar.get(mCalendar.HOUR_OF_DAY);
         int min = mCalendar.get(mCalendar.MINUTE);
         int sec = mCalendar.get(mCalendar.SECOND);
-        int tenth = mCalendar.get(mCalendar.MILLISECOND)/100;
+        int tenth = mCalendar.get(mCalendar.MILLISECOND) / 100;
 
         TimeEntry te = new TimeEntry("", 0, 0, 0, hour, min, sec, tenth);
         String displayTime = te.getTime(TimeEntry.TimeFormat.SECONDS_ONLY);
@@ -137,7 +135,9 @@ public class MainActivity extends Activity {
 
     }
 
-    /** Called when the user touches the SaveTime button */
+    /**
+     * Called when the user touches the SaveTime button
+     */
     public void saveTime(View view) {
         mCalendar.setTimeInMillis(System.currentTimeMillis());
         // Do something in response to button click
@@ -147,13 +147,13 @@ public class MainActivity extends Activity {
         int hour = mCalendar.get(mCalendar.HOUR_OF_DAY);
         int min = mCalendar.get(mCalendar.MINUTE);
         int sec = mCalendar.get(mCalendar.SECOND);
-        int tenth = mCalendar.get(mCalendar.MILLISECOND)/100;
+        int tenth = mCalendar.get(mCalendar.MILLISECOND) / 100;
 
         TimeEntry te = new TimeEntry(Integer.toString(mTimeStore.getEntryCount()),
                 year, month, day, hour, min, sec, tenth);
 
         mTimeStore.addToList(te);
-        redrawTimeLayout();
+        redrawTimeList();
     }
 
 }

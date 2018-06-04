@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">GrokClock</string>
+
+    <string name="hello">AndroidPreferences!</string>
+    <string name="settings_name">Settings in Android</string>
+    <string-array name="pref_items">
+        <item>Article 1</item>
+        <item>Article 2</item>
+        <item>Article 3</item>
+        <item>Article 4</item>
+        <item>Article 5</item>
+        <item>Article 6</item>
+    </string-array>
+    <string-array name="pref_items_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
 </resources>
