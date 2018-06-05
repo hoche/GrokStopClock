@@ -7,7 +7,7 @@
  *
  */
 
-package com.grok.grokclock;
+package com.grok.stopclock;
 
 import android.util.Log;
 import android.widget.TextView;

@@ -7,9 +7,8 @@
  *
  */
 
-package com.grok.grokclock;
+package com.grok.stopclock;
 
-import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

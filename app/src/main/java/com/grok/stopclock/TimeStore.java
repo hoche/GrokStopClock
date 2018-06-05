@@ -6,7 +6,7 @@
  * Copyright (C) 2011 Michel Hoche-Mong, hoche@grok.com
  *
  */
-package com.grok.grokclock;
+package com.grok.stopclock;
 
 import android.content.Context;
 import android.os.Environment;
@@ -14,11 +14,9 @@ import android.os.Environment;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PipedInputStream;
 import java.util.ArrayList;
 
 /* Note: This uses a text file as a backing store. The main reason for that is that it can
@@ -27,7 +25,7 @@ import java.util.ArrayList;
  */
 public class TimeStore {
 
-    private static final String LOGTAG = "TimeStore";
+    private final String LOGTAG = "TimeStore";
 
     private Context mCtxt;
     private FileOutputStream mFOut;
@@ -40,12 +38,12 @@ public class TimeStore {
 
     private String getExternalDataFileDir() {
         return Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/" + mCtxt.getResources().getString(R.string.app_name);
+                "/" + mCtxt.getResources().getString(R.string.app_dir_name);
     }
 
     private String getDataFileDir() {
         return mCtxt.getFilesDir().getAbsolutePath() +
-                "/" + mCtxt.getResources().getString(R.string.app_name);
+                "/" + mCtxt.getResources().getString(R.string.app_dir_name);
     }
 
     public boolean init() {

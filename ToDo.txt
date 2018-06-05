@@ -1,6 +1,6 @@
 X Create CSV file/CSV parser - done
 X Hook up button to save times - done
-* Create Prefs button/page
+X Create Prefs button/page
 * Create History page
 
 * Keep Nook awake when necessary

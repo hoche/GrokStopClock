@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.grok.grokclock">
+    package="com.grok.stopclock">
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +11,7 @@
         <uses-permission android:name="com.google.android.things.permission.USE_PERIPHERAL_IO" />
 
 
-        <activity android:name="com.grok.grokclock.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Preferences"
+        <activity android:name=".SettingsActivity"
             android:label="@string/settings_name">
         </activity>
         

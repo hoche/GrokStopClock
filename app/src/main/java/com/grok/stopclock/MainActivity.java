@@ -7,19 +7,27 @@
  * Copyright (C) 2011 Michel Hoche-Mong, hoche@grok.com
  *
  */
-package com.grok.grokclock;
+package com.grok.stopclock;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.grok.stopclock.LogUtil;
+import com.grok.stopclock.R;
+import com.grok.stopclock.SettingsActivity;
+import com.grok.stopclock.TimeEntry;
+import com.grok.stopclock.TimeStore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +36,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends Activity {
 
-    private static final String LOGTAG = "MainActivity";
+    private final String LOGTAG = "MainActivity";
 
     private Calendar mCalendar;
     private TextView mTvClockTime;
@@ -59,10 +67,12 @@ public class MainActivity extends Activity {
 
         LogUtil.INSTANCE.d(LOGTAG, "onCreate()");
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
         mCalendar = Calendar.getInstance();
-
         mTvClockTime = (TextView) findViewById(R.id.clock_time);
 
         mTimeStore = new TimeStore(this);
@@ -72,12 +82,14 @@ public class MainActivity extends Activity {
 
         // update every 200 milliseconds
         // It'd be nice to update faster, but that's about as fast as the display can
-        // redraw.
+        // redraw. Note that we do not run this timer as a daemon, so it stops when
+        // the app stops (which is nice because it'll save the battery).
+        // This also means that we don't need to worry about cancelling/restarting it
+        // when the app pauses/resumes.
         mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 200);
 
-        redrawTimeList();
         updateTime();
-
+        redrawTimeList();
     }
 
     protected void redrawTimeList() {
@@ -138,7 +150,7 @@ public class MainActivity extends Activity {
     /**
      * Called when the user touches the SaveTime button
      */
-    public void saveTime(View view) {
+    public void onSaveTimeButton(View view) {
         mCalendar.setTimeInMillis(System.currentTimeMillis());
         // Do something in response to button click
         int year = mCalendar.get(mCalendar.YEAR);
@@ -154,6 +166,19 @@ public class MainActivity extends Activity {
 
         mTimeStore.addToList(te);
         redrawTimeList();
+    }
+
+    public void onSettingsButton(View view) {
+        Intent settingsActivity = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(settingsActivity);
+    }
+
+    public void onHistoryButton(View view) {
+
+    }
+
+    public void onExportButton(View view) {
+
     }
 
 }

@@ -1,5 +1,13 @@
 <resources>
-    <string name="app_name">GrokClock</string>
+    <string name="app_name">Grok StopClock</string>
+    <string name="app_dir_name">GrokStopClock</string>
+
+    <string name="blank_time">00:00:00</string>
+
+    <string name="save_time_button_text">Mark Time</string>
+    <string name="settings_button_text">Settings</string>
+    <string name="history_button_text">History</string>
+    <string name="export_button_text">Export</string>
 
     <string name="hello">AndroidPreferences!</string>
     <string name="settings_name">Settings in Android</string>

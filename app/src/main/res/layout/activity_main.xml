@@ -3,18 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context="com.grok.grokclock.MainActivity">
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/buttonBar"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <Button
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/settings_button_text"
+            android:height="80dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:onClick="onSettingsButton" />
+
+        <Button
+            android:id="@+id/history_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/history_button_text"
+            android:height="80dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:onClick="onHistoryButton" />
+
+        <Button
+            android:id="@+id/export_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/export_button_text"
+            android:height="80dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:onClick="onExportButton" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/clock_time"
-        android:text="00:00:00"
-        android:textSize="80dp"
+        android:text="@string/blank_time"
+        android:textSize="80sp"
         android:textStyle="bold|italic"
         android:typeface="monospace"
         android:singleLine="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/buttonBar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:gravity="center_horizontal"
@@ -32,15 +73,15 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mark Time"
+        android:text="@string/save_time_button_text"
         android:id="@+id/save_time_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:height="100dp"
-        android:textSize="35dp"
+        android:textSize="35sp"
         android:textStyle="bold"
         android:typeface="sans"
-        android:onClick="saveTime" />
+        android:onClick="onSaveTimeButton" />
 
 </RelativeLayout>
