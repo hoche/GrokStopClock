@@ -77,19 +77,29 @@ public class MainActivity extends Activity {
 
         mTimeStore = new TimeStore(this);
         mTimeStore.init();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         mTimer = new Timer("ClockTimer");
 
         // update every 200 milliseconds
         // It'd be nice to update faster, but that's about as fast as the display can
-        // redraw. Note that we do not run this timer as a daemon, so it stops when
-        // the app stops (which is nice because it'll save the battery).
-        // This also means that we don't need to worry about cancelling/restarting it
-        // when the app pauses/resumes.
+        // redraw.
         mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 200);
 
         updateTime();
         redrawTimeList();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mTimer.cancel();
+        mTimer = null;
     }
 
     protected void redrawTimeList() {
