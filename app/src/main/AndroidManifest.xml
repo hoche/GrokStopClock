@@ -3,7 +3,7 @@
     package="com.grok.stopclock">
 
     <application
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/twotone_schedule_black_48"
         android:label="@string/app_name">
 
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

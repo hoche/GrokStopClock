@@ -12,38 +12,37 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
 
-        <Button
-            android:id="@+id/settings_button"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/settings_button_text"
-            android:height="80dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:onClick="onSettingsButton" />
 
-        <Button
-            android:id="@+id/history_button"
-            android:layout_width="wrap_content"
+
+        <TextView
+            android:id="@+id/branding_box"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:text="@string/history_button_text"
-            android:height="80dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:typeface="sans"
+            android:text="@string/app_name"
+            android:height="60dp"
+            android:textSize="40sp"
+            android:textStyle="bold|italic"
+            android:typeface="sans" />
+
+        <ImageButton
+            android:id="@+id/history_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="fill_parent"
+            android:height="60dp"
+            android:src="@drawable/baseline_view_list_black_36"
             android:onClick="onHistoryButton" />
 
-        <Button
-            android:id="@+id/export_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/export_button_text"
-            android:height="80dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:onClick="onExportButton" />
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="fill_parent"
+            android:height="60dp"
+            android:src="@drawable/outline_settings_black_36"
+            android:onClick="onSettingsButton" />
+
     </LinearLayout>
 
     <TextView
