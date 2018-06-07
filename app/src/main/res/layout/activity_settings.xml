@@ -4,18 +4,99 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <Spinner
-        android:id="@+id/planets_spinner"
+    <TextView
+        android:text="@string/time_format_separator"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:title="List"
-        android:key="prefList"
-        android:entryValues="@array/pref_items_values"
-        />
+        android:layout_height="30sp"
+        android:paddingLeft="20sp"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/black"
+        android:background="@android:color/darker_gray"/>
 
-    <CheckBox
-        android:id="@+id/chkIos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Checkbox" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80sp"
+        android:orientation="horizontal"
+        android:paddingTop="5sp"
+        android:paddingBottom="5sp" >
+
+        <TextView
+            android:layout_width="350sp"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="20sp"
+            android:textSize="24sp"
+            android:text="@string/time_format_spinner_text"/>
+
+        <Spinner
+            android:id="@+id/time_format_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:paddingRight="60sp"
+            android:textSize="24sp"
+            android:key="prefList"
+            android:entries="@array/time_format_items" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80sp"
+        android:orientation="horizontal"
+        android:paddingTop="5sp"
+        android:paddingBottom="5sp">
+
+        <TextView
+            android:layout_width="350sp"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="20sp"
+            android:textSize="24sp"
+            android:text="@string/hours_format_spinner_text"/>
+
+        <Spinner
+            android:id="@+id/hours_format_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:paddingRight="60sp"
+            android:textSize="24sp"
+            android:key="prefList"
+            android:entries="@array/hours_format_items" />
+
+    </LinearLayout>
+
+    <TextView
+        android:text="@string/other_separator"
+        android:layout_width="fill_parent"
+        android:layout_height="30sp"
+        android:paddingLeft="20sp"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/black"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80sp"
+        android:orientation="horizontal"
+        android:paddingTop="5sp"
+        android:paddingBottom="5sp">
+
+        <TextView
+            android:layout_width="350sp"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="20sp"
+            android:textSize="24sp"
+            android:text="@string/require_car_number_cb_text" />
+
+        <CheckBox
+            android:id="@+id/require_car_number_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingRight="60sp"
+            android:key="require_car_number_cb"  />
+
+    </LinearLayout>
 </LinearLayout>

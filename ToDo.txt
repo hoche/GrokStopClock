@@ -1,19 +1,25 @@
 X Create CSV file/CSV parser - done
 X Hook up button to save times - done
 X Create Prefs button/page
-* Create History page
+* Check shared prefs when displaying time
+* Make settings separator bar
+* Create History page or convert front page to scrollable ListView?
 
 * Keep Nook awake when necessary
 
 Prefs:
     * 12/24 time
     * Display sub-seconds
+    ---
+    * require car number to be entered
+    ---
     * Show/Set disk file location
     * Clear disk file
+    ---
+    * Set NTP server
+    * GPS?
+    * Save/Back button at the bottom
     * Upload host/IP address and port
     * Upload method (POST?)
          With upload now button?
-    * Set NTP server
-    * GPS?
-    * require car number to be entered
     

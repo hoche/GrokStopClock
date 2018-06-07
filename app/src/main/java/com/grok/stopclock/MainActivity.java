@@ -12,6 +12,7 @@ package com.grok.stopclock;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,8 @@ import java.util.TimerTask;
 public class MainActivity extends Activity {
 
     private final String LOGTAG = "MainActivity";
+
+    private SharedPreferences mSharedPreferences;
 
     private Calendar mCalendar;
     private TextView mTvClockTime;
@@ -71,6 +74,8 @@ public class MainActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
+
+        mSharedPreferences = getSharedPreferences("GrokStopClockPrefs", Activity.MODE_PRIVATE);
 
         mCalendar = Calendar.getInstance();
         mTvClockTime = (TextView) findViewById(R.id.clock_time);

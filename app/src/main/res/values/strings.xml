@@ -1,30 +1,31 @@
 <resources>
     <string name="app_name">Grok StopClock</string>
     <string name="app_dir_name">GrokStopClock</string>
+    <string name="app_settings_name">Settings</string>
 
     <string name="blank_time">00:00:00</string>
 
     <string name="save_time_button_text">Mark Time</string>
     <string name="settings_button_text">Settings</string>
     <string name="history_button_text">History</string>
-    <string name="export_button_text">Export</string>
 
-    <string name="hello">AndroidPreferences!</string>
-    <string name="settings_name">Settings in Android</string>
-    <string-array name="pref_items">
-        <item>Article 1</item>
-        <item>Article 2</item>
-        <item>Article 3</item>
-        <item>Article 4</item>
-        <item>Article 5</item>
-        <item>Article 6</item>
+    <string name="time_format_separator">Time Display</string>
+    <string name="time_format_spinner_text">Time Format</string>
+    <string-array name="time_format_items">
+        <item>Seconds (HH:MM:SS)</item>
+        <item>10th of Sec (HH:MM:SS.t)</item>
+        <item>100ths of Min (HH:MM.hh)</item>
     </string-array>
-    <string-array name="pref_items_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
+
+    <string name="hours_format_spinner_text">Time Format</string>
+    <string-array name="hours_format_items">
+        <item>12hr</item>
+        <item>24hr</item>
     </string-array>
+
+    <string name="save_file_separator">Save File</string>
+
+    <string name="other_separator">Other</string>
+    <string name="require_car_number_cb_text">Require Car Number when Saving Time?</string>
+
 </resources>

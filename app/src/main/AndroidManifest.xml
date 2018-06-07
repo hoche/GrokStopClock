@@ -8,7 +8,6 @@
 
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-        <uses-permission android:name="com.google.android.things.permission.USE_PERIPHERAL_IO" />
 
 
         <activity android:name=".MainActivity">
@@ -20,7 +19,7 @@
         </activity>
 
         <activity android:name=".SettingsActivity"
-            android:label="@string/settings_name">
+            android:label="@string/app_settings_name">
         </activity>
         
     </application>
