@@ -24,8 +24,8 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        int windowFlags = WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+        getWindow().setFlags(windowFlags, windowFlags);
 
         setContentView(R.layout.activity_settings);
 
@@ -69,6 +69,12 @@ public class SettingsActivity extends Activity {
 
         // Initialize the car number requirement checkbox
         CheckBox cb = (CheckBox)findViewById(R.id.require_car_number_cb);
+        cb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSharedPreferences.edit().putBoolean("RequireCarNumber", ((CheckBox)v).isChecked()).commit();
+            }
+        });
     }
 
     public void onBackButton(View view) {

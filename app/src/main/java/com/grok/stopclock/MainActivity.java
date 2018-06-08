@@ -71,8 +71,8 @@ public class MainActivity extends Activity {
 
         LogUtil.INSTANCE.d(LOGTAG, "onCreate()");
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        int windowFlags = WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+        getWindow().setFlags(windowFlags, windowFlags);
 
         mSharedPreferences = getApplicationContext().getSharedPreferences("GrokStopClock", Context.MODE_PRIVATE);
 
