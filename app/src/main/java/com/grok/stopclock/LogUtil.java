@@ -163,7 +163,6 @@ public class LogUtil {
             Log.v("LogUtil", "Opening filestream to " + filepath);
             mFileStream = new FileOutputStream(filepath);
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             mFile = null;
             e.printStackTrace();
         }
@@ -229,7 +228,6 @@ public class LogUtil {
                 mNetSocket.close();
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -249,7 +247,6 @@ public class LogUtil {
                 mFileStream.write(msg.getBytes());
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -274,7 +271,6 @@ public class LogUtil {
                 mNetStream.flush();
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

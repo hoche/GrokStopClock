@@ -5,8 +5,10 @@ X Check shared prefs when displaying time
 X Make settings separator bar
 X Save/Back button for settings
 * Create History page or convert front page to scrollable ListView?
-* Find leaky objects
-* Keep Nook awake when necessary
+X Find leaky objects - was string formatting in TimeEntry
+X Keep Nook awake when necessary
+* Wire up clear history page
+* Wire up car number requirement and put up page
 
 Prefs:
     X 12/24 time

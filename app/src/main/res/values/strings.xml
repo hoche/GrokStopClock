@@ -1,5 +1,7 @@
 <resources>
+    <string name="app_full_name">Grok StopClock v1.2b1</string>
     <string name="app_name">Grok StopClock</string>
+
     <string name="app_dir_name">GrokStopClock</string>
     <string name="app_settings_name">Settings</string>
 

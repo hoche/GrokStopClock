@@ -68,12 +68,12 @@ public class TimeStore {
         final File dir = new File(path);
         if (!dir.exists()) {
             if (!dir.mkdirs()) {
-                // TODO: Handle error
+                // TODO: Handle error with proper notification
                 LogUtil.INSTANCE.d(LOGTAG, "Couldn't create storage directory.");
                 return false;
             }
         } else if (!dir.isDirectory() || !dir.canWrite()) {
-            // TODO: Handle error
+            // TODO: Handle error with proper notification
             LogUtil.INSTANCE.d(LOGTAG, "Couldn't write to storage directory.");
             return false;
         }
@@ -83,13 +83,13 @@ public class TimeStore {
             try {
                 dataFile.createNewFile();
             } catch (IOException e) {
-                // TODO: Handle error
+                // TODO: Handle error with proper notification
                 LogUtil.INSTANCE.d(LOGTAG, "Couldn't create data file.");
                 return false;
             }
         }
         if (!dataFile.canWrite() || !dataFile.canRead()) {
-            // TODO: Handle error
+            // TODO: Handle error with proper notification
             LogUtil.INSTANCE.d(LOGTAG, "Couldn't read or write to data file.");
             return false;
         }
