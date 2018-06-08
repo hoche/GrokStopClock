@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.grok.stopclock.R;
 
@@ -24,8 +26,12 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int windowFlags = WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+        int windowFlags = WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
         getWindow().setFlags(windowFlags, windowFlags);
+
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_settings);
 
@@ -71,6 +77,8 @@ public class SettingsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 mSharedPreferences.edit().putBoolean("RequireCarNumber", ((CheckBox)v).isChecked()).commit();
+                Toast.makeText(SettingsActivity.this, "This doesn't actually do anything yet.",
+                        Toast.LENGTH_LONG).show();
             }
         });
     }

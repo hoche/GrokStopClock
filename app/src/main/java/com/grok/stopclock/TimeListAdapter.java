@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Formatter;
 
 
 /**
@@ -21,6 +24,15 @@ public class TimeListAdapter extends BaseAdapter {
     private TimeStore mTimeStore;
 
     private SharedPreferences mSharedPreferences;
+
+    class TimeListViewHolder {
+        public TextView mTvId;
+        public TextView mTvTimeEntry;
+        public TimeListViewHolder(View base) {
+            mTvId = (TextView) base.findViewById(R.id.entry_id);
+            mTvTimeEntry = (TextView) base.findViewById(R.id.entry_time);
+        }
+    }
 
     public TimeListAdapter(Context context, TimeStore timeStore) {
         mContext = context;
@@ -38,29 +50,57 @@ public class TimeListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return mTimeStore.get(position);
+        // Note that we return the object from the array in reverse order
+        // TODO: handle IndexOutOfBoundsException
+        return mTimeStore.get(mTimeStore.getEntryCount() - position - 1);
     }
 
     @Override
     public long getItemId(int position) {
+        LogUtil.INSTANCE.d(LOGTAG, "getItemId(" + position + ")");
         return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LogUtil.INSTANCE.d(LOGTAG, "getView(" + position + ")");
+        TimeEntry te = (TimeEntry)getItem(position);
 
-        // Get view for row item
-        View rowView = mInflater.inflate(R.layout.time_table_row, parent, false);
+        // Check if an existing view is being reused, otherwise inflate the view
+        View resultView = convertView;
+        TimeListViewHolder viewHolder;
+        if (resultView == null) {
+            resultView = mInflater.inflate(R.layout.time_table_row, parent, false);
+            viewHolder = new TimeListViewHolder(resultView);
+            resultView.setTag(viewHolder);
+        } else {
+            viewHolder = (TimeListViewHolder)convertView.getTag();
+        }
 
-        TextView idTv = (TextView) rowView.findViewById(R.id.entry_id);
-        TextView timeTv = (TextView) rowView.findViewById(R.id.entry_time);
+        int hour = te.mHour;
+        if (mSharedPreferences.getBoolean("Use12HourTime", false)) {
+            hour = (hour % 12);
+            if (hour == 0) hour = 12;
+        }
 
-        TimeEntry te = mTimeStore.get(position);
+        StringBuilder sbuf = new StringBuilder();
+        Formatter fmt = new Formatter(sbuf);
+        switch (mSharedPreferences.getInt("TimeFormatId", 0)) {
+            case 1:
+                fmt.format("%d:%02d:%02d.%d", hour, te.mMin, te.mSec, te.mTenth);
+                break;
 
-        idTv.setText(te.getId());
-        timeTv.setText(te.getTime(TimeEntry.getTimeFormat(mSharedPreferences.getInt("TimeFormatId", 0))));
+            case 2:
+                fmt.format("%d:%02d.%02d", hour, te.mMin, ((te.mSec * 1000) + te.mTenth)/600);
+                break;
 
-        return rowView;
+            case 0:
+            default:
+                fmt.format("%d:%02d:%02d", hour, te.mMin, te.mSec + ((te.mTenth >= 5) ? 1 : 0) );
+        }
+
+        viewHolder.mTvId.setText(te.getId());
+        viewHolder.mTvTimeEntry.setText(sbuf.toString());
+
+        return resultView;
     }
 }

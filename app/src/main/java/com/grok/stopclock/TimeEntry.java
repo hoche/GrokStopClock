@@ -15,21 +15,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TimeEntry {
-    private String mId;
-    private int mYear;
-    private int mMonth;
-    private int mDay;
-    private int mHour;
-    private int mMin;
-    private int mSec;
-    private int mTenth;
-
-    // These should match the ordering of values in strings/time_format_items
-    public enum TimeFormat {
-        SECONDS_ONLY,
-        SECONDS_AND_TENTHS,
-        HUNDREDTHS_OF_MINUTE
-    }
+    public String mId;
+    public int mYear;
+    public int mMonth;
+    public int mDay;
+    public int mHour;
+    public int mMin;
+    public int mSec;
+    public int mTenth;
 
     // TODO: Improve these regexps
     private final static String idPattern = "(\\w+)";
@@ -72,53 +65,17 @@ public class TimeEntry {
         return mId;
     }
 
-    public final String getDate() {
-        DecimalFormat yf = new DecimalFormat("0000");
-        DecimalFormat df = new DecimalFormat("00");
-        return yf.format(mYear) + "-" +
-                df.format(mMonth) + "-" +
-                df.format(mDay);
-    }
-
-    public final String getTime(TimeFormat timeFormat) {
-        StringBuilder sbuf = new StringBuilder();
-        Formatter fmt = new Formatter(sbuf);
-
-        switch (timeFormat) {
-            case SECONDS_AND_TENTHS:
-                fmt.format("%d:%02d:%02d.%d", mHour, mMin, mSec, mTenth);
-                break;
-
-            case HUNDREDTHS_OF_MINUTE:
-                fmt.format("%d:%02d.%02d", mHour, mMin, ((mSec * 1000) + mTenth)/600);
-                break;
-
-            case SECONDS_ONLY:
-            default:
-                fmt.format("%d:%02d:%02d", mHour, mMin, mSec + ((mTenth >= 5) ? 1 : 0) );
-        }
-        return sbuf.toString();
-    }
-
     public static final String headersToString() {
         String val = "ID,Time,Date\n";
         return val;
     }
 
     public final String toString() {
-        String val = mId + "," + getTime(TimeFormat.SECONDS_AND_TENTHS) + "," + getDate() + "\n";
-        return val;
+        StringBuilder sbuf = new StringBuilder();
+        Formatter fmt = new Formatter(sbuf);
+        fmt.format("%s,%d:%02d:%02d.%d,%04d-%02d-%02d",
+                mId, mHour, mMin, mSec, mTenth, mYear, mMonth, mDay);
+        return sbuf.toString();
     }
 
-    public static TimeFormat getTimeFormat(int idx) {
-        switch (idx) {
-            case 1:
-                return TimeFormat.SECONDS_AND_TENTHS;
-            case 2:
-                return TimeFormat.HUNDREDTHS_OF_MINUTE;
-            case 0:
-            default:
-                return TimeFormat.SECONDS_ONLY;
-        }
-    }
 }

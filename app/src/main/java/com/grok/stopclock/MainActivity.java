@@ -20,6 +20,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.TableLayout;
@@ -34,6 +35,7 @@ import com.grok.stopclock.TimeStore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Formatter;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,6 +48,7 @@ public class MainActivity extends Activity {
     private Calendar mCalendar;
     private TextView mTvClockTime;
     private ListView mTimeList;
+    private TimeListAdapter mTimeListAdapter;
     private Timer mTimer;
 
     private TimeStore mTimeStore;
@@ -69,12 +72,14 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Context ctx = getApplicationContext();
-
         LogUtil.INSTANCE.d(LOGTAG, "onCreate()");
 
-        int windowFlags = WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+        int windowFlags = WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
         getWindow().setFlags(windowFlags, windowFlags);
+
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         mSharedPreferences = getApplicationContext().getSharedPreferences("GrokStopClock", Context.MODE_PRIVATE);
 
@@ -87,23 +92,23 @@ public class MainActivity extends Activity {
         mTimeStore.init();
 
         mTimeList = (ListView) findViewById(R.id.time_list);
-        TimeListAdapter adapter = new TimeListAdapter(this, mTimeStore);
-        mTimeList.setAdapter(adapter);
+        View header = getLayoutInflater().inflate(R.layout.time_table_header, null);
+        mTimeList.addHeaderView(header); // have to do this before setAdapter
+        mTimeListAdapter = new TimeListAdapter(this, mTimeStore);
+        mTimeList.setAdapter(mTimeListAdapter); // have to this after addHeaderView
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        mTimer = new Timer("ClockTimer");
-
         // update every 200 milliseconds
         // It'd be nice to update faster, but that's about as fast as the display can
         // redraw.
-        mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 100);
+        mTimer = new Timer("ClockTimer");
+        mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 200);
 
         updateTime();
-        redrawTimeList();
     }
 
     @Override
@@ -112,10 +117,6 @@ public class MainActivity extends Activity {
 
         mTimer.cancel();
         mTimer = null;
-    }
-
-    protected void redrawTimeList() {
-        //mTimeList.getAdapter().notifyDataSetChanged();
     }
 
     private void updateTime() {
@@ -132,8 +133,25 @@ public class MainActivity extends Activity {
             if (hour == 0) hour = 12;
         }
 
-        TimeEntry te = new TimeEntry("", 0, 0, 0, hour, min, sec, tenth);
-        String displayTime = te.getTime(TimeEntry.getTimeFormat(mSharedPreferences.getInt("TimeFormatId", 0)));
+        // This is all temporary. It'd be nice to use a common time-formatter between this
+        // and the list adapter, but since we're updating this one a lot we want to minimize
+        // the amount that we have to redraw, so this one's optimized for that.
+        StringBuilder sbuf = new StringBuilder();
+        Formatter fmt = new Formatter(sbuf);
+        switch (mSharedPreferences.getInt("TimeFormatId", 0)) {
+            case 1:
+                fmt.format("%d:%02d:%02d.%d", hour, min, sec, tenth);
+                break;
+
+            case 2:
+                fmt.format("%d:%02d.%02d", hour, min, ((sec * 1000) + tenth)/600);
+                break;
+
+            case 0:
+            default:
+                fmt.format("%d:%02d:%02d", hour, min, sec + ((tenth >= 5) ? 1 : 0) );
+        }
+        String displayTime = sbuf.toString();
 
         // Only change if necessary to reduce flicker
         // TODO: Investigate to see if it's worthwhile just updating the seconds
@@ -162,7 +180,7 @@ public class MainActivity extends Activity {
                 year, month, day, hour, min, sec, tenth);
 
         mTimeStore.addToList(te);
-        redrawTimeList();
+        mTimeListAdapter.notifyDataSetChanged();
     }
 
     public void onSettingsButton(View view) {

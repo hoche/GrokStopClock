@@ -7,6 +7,9 @@
 
     <string name="blank_time">00:00:00</string>
 
+    <string name="time_table_header_id_text">ID</string>
+    <string name="time_table_header_time_text">Time</string>
+
     <string name="save_time_button_text">Save Time</string>
     <string name="settings_button_text">Settings</string>
     <string name="history_button_text">History</string>
