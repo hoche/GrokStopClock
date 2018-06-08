@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="5dp"
+        android:layout_alignParentTop="true"
         android:background="@android:color/darker_gray" >
 
         <TextView
@@ -27,6 +28,8 @@
             android:layout_width="80dp"
             android:layout_height="48dp"
             android:src="@drawable/icons8_undo_36"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
             android:onClick="onBackButton" />
 
     </LinearLayout>

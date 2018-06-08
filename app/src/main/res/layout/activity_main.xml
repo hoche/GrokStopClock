@@ -49,27 +49,17 @@
 
     </LinearLayout>
 
-    <TextView
+    <include layout="@layout/digital_clock"
+        android:id="@+id/digital_clock"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/clock_time"
-        android:text="@string/blank_time"
-        android:textSize="80sp"
-        android:textStyle="bold|italic"
-        android:typeface="monospace"
-        android:singleLine="true"
-        android:layout_below="@+id/buttonBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:gravity="center_horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:layout_below="@+id/buttonBar" />
 
     <ListView
         android:id="@+id/time_list"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:layout_below="@+id/clock_time"
+        android:layout_below="@+id/digital_clock"
         android:layout_above="@+id/save_time_button_bar" />
 
     <LinearLayout

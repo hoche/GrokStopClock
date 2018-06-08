@@ -46,12 +46,23 @@ public class MainActivity extends Activity {
     private SharedPreferences mSharedPreferences;
 
     private Calendar mCalendar;
-    private TextView mTvClockTime;
+
+    private TextView mTvClockHours;
+    private TextView mTvClockMinutes;
+    private TextView mTvClockMinutesSeparator;
+    private TextView mTvClockSubTime;
+
     private ListView mTimeList;
     private TimeListAdapter mTimeListAdapter;
     private Timer mTimer;
 
     private TimeStore mTimeStore;
+
+    private int mDisplayFormatId;
+    private int mDisplayHour;
+    private int mDisplayMin;
+    private int mDisplaySec;
+    private int mDisplayTenth;
 
     final Handler h = new Handler(new Handler.Callback() {
         @Override
@@ -82,11 +93,21 @@ public class MainActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         mSharedPreferences = getApplicationContext().getSharedPreferences("GrokStopClock", Context.MODE_PRIVATE);
+        mDisplayFormatId = mSharedPreferences.getInt("TimeFormatId", 0);
+
+        mDisplayHour = 0;
+        mDisplayMin = 0;
+        mDisplaySec = 0;
+        mDisplayTenth = 0;
 
         setContentView(R.layout.activity_main);
 
         mCalendar = Calendar.getInstance();
-        mTvClockTime = (TextView) findViewById(R.id.clock_time);
+
+        mTvClockHours = (TextView) findViewById(R.id.clock_hours);
+        mTvClockMinutes = (TextView) findViewById(R.id.clock_minutes);
+        mTvClockMinutesSeparator = (TextView) findViewById(R.id.clock_minutes_separator);
+        mTvClockSubTime = (TextView) findViewById(R.id.clock_subtime);
 
         mTimeStore = new TimeStore(this);
         mTimeStore.init();
@@ -102,11 +123,9 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        // update every 200 milliseconds
-        // It'd be nice to update faster, but that's about as fast as the display can
-        // redraw.
+        // update every 100 milliseconds
         mTimer = new Timer("ClockTimer");
-        mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 200);
+        mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 100);
 
         updateTime();
     }
@@ -133,33 +152,45 @@ public class MainActivity extends Activity {
             if (hour == 0) hour = 12;
         }
 
-        // This is all temporary. It'd be nice to use a common time-formatter between this
-        // and the list adapter, but since we're updating this one a lot we want to minimize
-        // the amount that we have to redraw, so this one's optimized for that.
-        StringBuilder sbuf = new StringBuilder();
-        Formatter fmt = new Formatter(sbuf);
-        switch (mSharedPreferences.getInt("TimeFormatId", 0)) {
-            case 1:
-                fmt.format("%d:%02d:%02d.%d", hour, min, sec, tenth);
+        if (mDisplayHour != hour) {
+            mDisplayHour = hour;
+            mTvClockHours.setText(Integer.toString(mDisplayHour));
+        }
+
+        if (mDisplayMin != min) {
+            mDisplayMin = min;
+            mTvClockMinutes.setText(String.format("%02d", mDisplayMin));
+        }
+
+        int timeFormatId = mSharedPreferences.getInt("TimeFormatId", 0);
+        String newTime;
+        switch (timeFormatId) {
+            case 1:  // tenths of a second
+                if (mDisplayFormatId != timeFormatId) {
+                    mTvClockMinutesSeparator.setText(":");
+                }
+                newTime = String.format("%02d.%d", sec, tenth);
                 break;
 
-            case 2:
-                fmt.format("%d:%02d.%02d", hour, min, ((sec * 1000) + tenth)/600);
+            case 2:  // hundredths of a minute
+                if (mDisplayFormatId != timeFormatId) {
+                    mTvClockMinutesSeparator.setText(".");
+                }
+                newTime = String.format("%02d", ((sec * 1000) + tenth)/600);
                 break;
 
-            case 0:
+            case 0:  // seconds only
             default:
-                fmt.format("%d:%02d:%02d", hour, min, sec + ((tenth >= 5) ? 1 : 0) );
-        }
-        String displayTime = sbuf.toString();
-
-        // Only change if necessary to reduce flicker
-        // TODO: Investigate to see if it's worthwhile just updating the seconds
-        String oldDisplayTime = mTvClockTime.getText().toString();
-        if (!oldDisplayTime.equals(displayTime)) {
-            mTvClockTime.setText(displayTime);
+                if (mDisplayFormatId != timeFormatId) {
+                    mTvClockMinutesSeparator.setText(":");
+                }
+                newTime = String.format("%02d", sec + ((tenth >= 5) ? 1 : 0) );
         }
 
+        if (mTvClockSubTime.getText().toString() != newTime) {
+            mTvClockSubTime.setText(newTime);
+        }
+        mDisplayFormatId = timeFormatId;
     }
 
     /**

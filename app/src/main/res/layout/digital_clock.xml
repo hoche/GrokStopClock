@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/clock_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100sp"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:text="00"/>"
+
+    <TextView
+        android:id="@+id/clock_hour_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:text=":"/>"
+
+    <TextView
+        android:id="@+id/clock_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:text="00"/>"
+
+    <TextView
+        android:id="@+id/clock_minutes_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:text=":"/>"
+
+    <TextView
+        android:id="@+id/clock_subtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:text="00"/>"
+
+</LinearLayout>
