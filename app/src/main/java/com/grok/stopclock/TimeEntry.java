@@ -100,9 +100,14 @@ public class TimeEntry {
         return sbuf.toString();
     }
 
-    public final byte[] toByteArray() {
+    public static final String headersToString() {
+        String val = "ID,Time,Date\n";
+        return val;
+    }
+
+    public final String toString() {
         String val = mId + "," + getTime(TimeFormat.SECONDS_AND_TENTHS) + "," + getDate() + "\n";
-        return val.getBytes();
+        return val;
     }
 
     public static TimeFormat getTimeFormat(int idx) {

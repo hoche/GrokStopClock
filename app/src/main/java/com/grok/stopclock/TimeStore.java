@@ -49,6 +49,7 @@ public class TimeStore {
     public boolean init() {
 
         String path = getExternalDataFileDir();
+        Boolean isNew = false;
 
         // Return the primary external storage directory. This directory may not currently be
         // accessible if it has been mounted by the user on their computer, has been removed from
@@ -82,6 +83,7 @@ public class TimeStore {
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
+                isNew = true;
             } catch (IOException e) {
                 // TODO: Handle error with proper notification
                 LogUtil.INSTANCE.d(LOGTAG, "Couldn't create data file.");
@@ -100,7 +102,7 @@ public class TimeStore {
         try {
             FileInputStream is = new FileInputStream(dataFile);
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line = reader.readLine();
+            String line;
             int lineNo = 1;
             while ((line = reader.readLine())!= null) {
                 try {
@@ -120,6 +122,14 @@ public class TimeStore {
         try {
             FileOutputStream os = new FileOutputStream(dataFile, true); // open for appending
             mFOut = os;
+            // write header if necessary
+            if (isNew) {
+                try {
+                    mFOut.write(TimeEntry.headersToString().getBytes());
+                } catch (IOException e) {
+                    LogUtil.INSTANCE.d(LOGTAG, "Couldn't append to data file.");
+                }
+            }
         } catch (IOException e) {
             LogUtil.INSTANCE.d(LOGTAG, "Couldn't append to data file.");
             return false;
@@ -132,7 +142,7 @@ public class TimeStore {
         mTimes.add(te);
         if (mFOut != null) {
             try {
-                mFOut.write(te.toByteArray());
+                mFOut.write(te.toString().getBytes());
             } catch (IOException e) {
                 LogUtil.INSTANCE.d(LOGTAG, "Couldn't append to data file.");
             }
