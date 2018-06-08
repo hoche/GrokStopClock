@@ -1,41 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentTop="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:background="@android:color/darker_gray"  >
+
+        <TextView
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:paddingLeft="20sp"/>
+
+        <ImageButton
+            android:id="@+id/settings_back_button"
+            android:layout_width="80dp"
+            android:layout_height="48dp"
+            android:src="@drawable/icons8_undo_36"
+            android:onClick="onBackButton" />
+
+    </LinearLayout>
 
     <TextView
-        android:text="@string/time_format_separator"
         android:layout_width="fill_parent"
         android:layout_height="30sp"
-        android:paddingLeft="20sp"
+        android:background="@android:color/background_light"
         android:gravity="center_vertical"
-        android:textColor="@android:color/black"
-        android:background="@android:color/darker_gray"/>
+        android:paddingLeft="20sp"
+        android:text="@string/time_format_separator"
+        android:textColor="@android:color/black" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="80sp"
         android:orientation="horizontal"
-        android:paddingTop="5sp"
-        android:paddingBottom="5sp" >
+        android:paddingBottom="5sp"
+        android:paddingTop="5sp">
 
         <TextView
             android:layout_width="350sp"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:paddingLeft="20sp"
-            android:textSize="24sp"
-            android:text="@string/time_format_spinner_text"/>
+            android:text="@string/time_format_spinner_text"
+            android:textSize="24sp" />
 
         <Spinner
             android:id="@+id/time_format_spinner"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:paddingRight="60sp"
-            android:textSize="24sp"
+            android:entries="@array/time_format_items"
             android:key="prefList"
-            android:entries="@array/time_format_items" />
+            android:paddingRight="60sp"
+            android:textSize="24sp" />
 
     </LinearLayout>
 
@@ -44,59 +71,59 @@
         android:layout_width="fill_parent"
         android:layout_height="80sp"
         android:orientation="horizontal"
-        android:paddingTop="5sp"
-        android:paddingBottom="5sp">
+        android:paddingBottom="5sp"
+        android:paddingTop="5sp">
 
         <TextView
             android:layout_width="350sp"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:paddingLeft="20sp"
-            android:textSize="24sp"
-            android:text="@string/hours_format_spinner_text"/>
+            android:text="@string/hours_format_spinner_text"
+            android:textSize="24sp" />
 
         <Spinner
             android:id="@+id/hours_format_spinner"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:paddingRight="60sp"
-            android:textSize="24sp"
+            android:entries="@array/hours_format_items"
             android:key="prefList"
-            android:entries="@array/hours_format_items" />
+            android:paddingRight="60sp"
+            android:textSize="24sp" />
 
     </LinearLayout>
 
     <TextView
-        android:text="@string/other_separator"
         android:layout_width="fill_parent"
         android:layout_height="30sp"
-        android:paddingLeft="20sp"
+        android:background="@android:color/background_light"
         android:gravity="center_vertical"
-        android:textColor="@android:color/black"
-        android:background="@android:color/darker_gray"/>
+        android:paddingLeft="20sp"
+        android:text="@string/other_separator"
+        android:textColor="@android:color/black" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="80sp"
         android:orientation="horizontal"
-        android:paddingTop="5sp"
-        android:paddingBottom="5sp">
+        android:paddingBottom="5sp"
+        android:paddingTop="5sp">
 
         <TextView
             android:layout_width="350sp"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:paddingLeft="20sp"
-            android:textSize="24sp"
-            android:text="@string/require_car_number_cb_text" />
+            android:text="@string/require_car_number_cb_text"
+            android:textSize="24sp" />
 
         <CheckBox
             android:id="@+id/require_car_number_cb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingRight="60sp"
-            android:key="require_car_number_cb"  />
+            android:key="require_car_number_cb"
+            android:paddingRight="60sp" />
 
     </LinearLayout>
 </LinearLayout>

@@ -23,6 +23,7 @@ public class TimeEntry {
     private int mSec;
     private int mTenth;
 
+    // These should match the ordering of values in strings/time_format_items
     public enum TimeFormat {
         SECONDS_ONLY,
         SECONDS_AND_TENTHS,
@@ -114,5 +115,17 @@ public class TimeEntry {
     public final byte[] toByteArray() {
         String val = mId + "," + getTime(TimeFormat.SECONDS_AND_TENTHS) + "," + getDate() + "\n";
         return val.getBytes();
+    }
+
+    public static TimeFormat getTimeFormat(int idx) {
+        switch (idx) {
+            case 1:
+                return TimeFormat.SECONDS_AND_TENTHS;
+            case 2:
+                return TimeFormat.HUNDREDTHS_OF_MINUTE;
+            case 0:
+            default:
+                return TimeFormat.SECONDS_ONLY;
+        }
     }
 }

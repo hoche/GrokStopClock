@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.Spinner;
@@ -20,6 +21,9 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_settings);
 
@@ -71,4 +75,7 @@ public class SettingsActivity extends Activity {
         CheckBox cb = (CheckBox)findViewById(R.id.require_car_number_cb);
     }
 
+    public void onBackButton(View view) {
+        finish();
+    }
 }

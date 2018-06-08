@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
 
-
-
         <TextView
             android:id="@+id/branding_box"
             android:layout_width="0dp"
@@ -40,7 +38,7 @@
             android:layout_weight="1"
             android:layout_height="fill_parent"
             android:height="60dp"
-            android:src="@drawable/outline_settings_black_36"
+            android:src="@drawable/icons8_settings_36"
             android:onClick="onSettingsButton" />
 
     </LinearLayout>

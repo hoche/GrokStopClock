@@ -133,7 +133,7 @@ public class MainActivity extends Activity {
             } else {
                 TimeEntry te = timeList.get(entryCount - i);
                 entry_num.setText(te.getId());
-                entry_time.setText(te.getTime(TimeEntry.TimeFormat.SECONDS_AND_TENTHS));
+                entry_time.setText(te.getTime(TimeEntry.getTimeFormat(mSharedPreferences.getInt("TimeFormatId", 0))));
             }
 
             table.addView(row);
@@ -151,7 +151,7 @@ public class MainActivity extends Activity {
         int tenth = mCalendar.get(mCalendar.MILLISECOND) / 100;
 
         TimeEntry te = new TimeEntry("", 0, 0, 0, hour, min, sec, tenth);
-        String displayTime = te.getTime(TimeEntry.TimeFormat.SECONDS_ONLY);
+        String displayTime = te.getTime(TimeEntry.getTimeFormat(mSharedPreferences.getInt("TimeFormatId", 0)));
 
         // Only change if necessary to reduce flicker
         // TODO: Investigate to see if it's worthwhile just updating the seconds
@@ -189,10 +189,6 @@ public class MainActivity extends Activity {
     }
 
     public void onHistoryButton(View view) {
-
-    }
-
-    public void onExportButton(View view) {
 
     }
 
