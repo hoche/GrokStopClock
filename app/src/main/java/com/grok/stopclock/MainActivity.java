@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
         // update every 200 milliseconds
         // It'd be nice to update faster, but that's about as fast as the display can
         // redraw.
-        mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 200);
+        mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 100);
 
         updateTime();
         redrawTimeList();
@@ -150,6 +150,7 @@ public class MainActivity extends Activity {
         int min = mCalendar.get(mCalendar.MINUTE);
         int sec = mCalendar.get(mCalendar.SECOND);
         int tenth = mCalendar.get(mCalendar.MILLISECOND) / 100;
+
 
         TimeEntry te = new TimeEntry("", 0, 0, 0, hour, min, sec, tenth);
         String displayTime = te.getTime(TimeEntry.getTimeFormat(mSharedPreferences.getInt("TimeFormatId", 0)));

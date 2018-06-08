@@ -10,6 +10,7 @@
 package com.grok.stopclock;
 
 import java.text.DecimalFormat;
+import java.util.Formatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,36 +81,23 @@ public class TimeEntry {
     }
 
     public final String getTime(TimeFormat timeFormat) {
+        StringBuilder sbuf = new StringBuilder();
+        Formatter fmt = new Formatter(sbuf);
+
         switch (timeFormat) {
+            case SECONDS_AND_TENTHS:
+                fmt.format("%d:%02d:%02d.%d", mHour, mMin, mSec, mTenth);
+                break;
 
-            case SECONDS_AND_TENTHS: {
-                DecimalFormat hf = new DecimalFormat("#0");
-                DecimalFormat df = new DecimalFormat("00");
-                DecimalFormat sf = new DecimalFormat("0");
-                return hf.format(mHour) + ":" +
-                        df.format(mMin) + ":" +
-                        df.format(mSec) + "." +
-                        sf.format(mTenth);
-            }
-
-            case HUNDREDTHS_OF_MINUTE: {
-                DecimalFormat hf = new DecimalFormat("#0");
-                DecimalFormat df = new DecimalFormat("00");
-                return hf.format(mHour) + ":" +
-                        df.format(mMin) + "." +
-                        df.format(((mSec * 1000) + mTenth)/600);
-            }
+            case HUNDREDTHS_OF_MINUTE:
+                fmt.format("%d:%02d.%02d", mHour, mMin, ((mSec * 1000) + mTenth)/600);
+                break;
 
             case SECONDS_ONLY:
-            default: {
-                DecimalFormat hf = new DecimalFormat("#0");
-                DecimalFormat df = new DecimalFormat("00");
-                // TODO: fix rounding of seconds
-                return hf.format(mHour) + ":" +
-                        df.format(mMin) + ":" +
-                        df.format(mSec);
-            }
+            default:
+                fmt.format("%d:%02d:%02d", mHour, mMin, mSec + ((mTenth >= 5) ? 1 : 0) );
         }
+        return sbuf.toString();
     }
 
     public final byte[] toByteArray() {
