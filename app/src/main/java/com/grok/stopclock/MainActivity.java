@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -73,9 +74,9 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_main);
+        mSharedPreferences = getApplicationContext().getSharedPreferences("GrokStopClock", Context.MODE_PRIVATE);
 
-        mSharedPreferences = getSharedPreferences("GrokStopClockPrefs", Activity.MODE_PRIVATE);
+        setContentView(R.layout.activity_main);
 
         mCalendar = Calendar.getInstance();
         mTvClockTime = (TextView) findViewById(R.id.clock_time);
@@ -108,6 +109,7 @@ public class MainActivity extends Activity {
     }
 
     protected void redrawTimeList() {
+
         TableLayout table = (TableLayout) findViewById(R.id.time_table);
         table.removeAllViews();
 
@@ -142,7 +144,6 @@ public class MainActivity extends Activity {
 
     private void updateTime() {
 
-        //LogUtil.INSTANCE.d(LOGTAG, "updateTime()");
         mCalendar.setTimeInMillis(System.currentTimeMillis());
 
         int hour = mCalendar.get(mCalendar.HOUR_OF_DAY);
@@ -186,10 +187,6 @@ public class MainActivity extends Activity {
     public void onSettingsButton(View view) {
         Intent settingsActivity = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(settingsActivity);
-    }
-
-    public void onHistoryButton(View view) {
-
     }
 
 }

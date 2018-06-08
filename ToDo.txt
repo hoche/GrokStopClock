@@ -4,7 +4,7 @@ X Create Prefs button/page
 * Check shared prefs when displaying time
 * Make settings separator bar
 * Create History page or convert front page to scrollable ListView?
-
+* Find leaky objects
 * Keep Nook awake when necessary
 
 Prefs:

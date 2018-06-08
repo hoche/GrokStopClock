@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="5dp"
-        android:background="@android:color/darker_gray"  >
+        android:background="@android:color/darker_gray" >
 
         <TextView
             android:layout_height="fill_parent"

@@ -1,9 +1,11 @@
 package com.grok.stopclock;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -27,7 +29,7 @@ public class SettingsActivity extends Activity {
 
         setContentView(R.layout.activity_settings);
 
-        mSharedPreferences = getSharedPreferences("GrokStopClockPrefs", Activity.MODE_PRIVATE);
+        mSharedPreferences = getApplicationContext().getSharedPreferences("GrokStopClock", Context.MODE_PRIVATE);
 
         // Initialize the time format spinner
         Spinner spinner = (Spinner)findViewById(R.id.time_format_spinner);
@@ -38,10 +40,7 @@ public class SettingsActivity extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                LogUtil.INSTANCE.d(LOGTAG, "Time Format Spinner: " + Long.toString(id));
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                editor.putInt("TimeFormatId", (int)id);
-                editor.commit();
+                mSharedPreferences.edit().putInt("TimeFormatId", (int)id).commit();
             }
 
             @Override
@@ -51,7 +50,7 @@ public class SettingsActivity extends Activity {
         });
 
         // Initialize the hour format spinner
-        spinner = (Spinner)findViewById(R.id.time_format_spinner);
+        spinner = (Spinner)findViewById(R.id.hours_format_spinner);
         id = mSharedPreferences.getInt("HourFormatId", 0);
         if (id >= 0 && id < spinner.getCount()) {
             spinner.setSelection(id);
@@ -59,10 +58,7 @@ public class SettingsActivity extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                LogUtil.INSTANCE.d(LOGTAG, "Hour Format Spinner: " + Long.toString(id));
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                editor.putInt("HourFormatId", (int)id);
-                editor.commit();
+                mSharedPreferences.edit().putInt("HourFormatId", (int)id).commit();
             }
 
             @Override

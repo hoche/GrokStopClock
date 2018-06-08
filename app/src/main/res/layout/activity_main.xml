@@ -7,16 +7,20 @@
 
     <LinearLayout
         android:id="@+id/buttonBar"
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/darker_gray" >
 
         <TextView
-            android:id="@+id/branding_box"
+            android:layout_height="fill_parent"
             android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:paddingLeft="20sp"
             android:text="@string/app_name"
             android:height="60dp"
             android:textSize="40sp"
@@ -24,20 +28,9 @@
             android:typeface="sans" />
 
         <ImageButton
-            android:id="@+id/history_button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
-            android:height="60dp"
-            android:src="@drawable/baseline_view_list_black_36"
-            android:onClick="onHistoryButton" />
-
-        <ImageButton
             android:id="@+id/settings_button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
-            android:height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="48dp"
             android:src="@drawable/icons8_settings_36"
             android:onClick="onSettingsButton" />
 

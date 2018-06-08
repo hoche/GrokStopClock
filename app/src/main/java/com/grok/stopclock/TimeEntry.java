@@ -96,7 +96,7 @@ public class TimeEntry {
                 DecimalFormat hf = new DecimalFormat("#0");
                 DecimalFormat df = new DecimalFormat("00");
                 return hf.format(mHour) + ":" +
-                        df.format(mMin) + ":" +
+                        df.format(mMin) + "." +
                         df.format(((mSec * 1000) + mTenth)/600);
             }
 
