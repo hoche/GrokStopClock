@@ -51,14 +51,12 @@ public class SettingsActivity extends Activity {
 
         // Initialize the hour format spinner
         spinner = (Spinner)findViewById(R.id.hours_format_spinner);
-        id = mSharedPreferences.getInt("HourFormatId", 0);
-        if (id >= 0 && id < spinner.getCount()) {
-            spinner.setSelection(id);
-        }
+        boolean twelveHourTime = mSharedPreferences.getBoolean("Use12HourTime", false);
+        spinner.setSelection(twelveHourTime ? 0 : 1);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                mSharedPreferences.edit().putInt("HourFormatId", (int)id).commit();
+                mSharedPreferences.edit().putBoolean("Use12HourTime", (id == 0) ).commit();
             }
 
             @Override

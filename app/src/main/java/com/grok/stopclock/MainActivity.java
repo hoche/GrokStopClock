@@ -151,6 +151,10 @@ public class MainActivity extends Activity {
         int sec = mCalendar.get(mCalendar.SECOND);
         int tenth = mCalendar.get(mCalendar.MILLISECOND) / 100;
 
+        if (mSharedPreferences.getBoolean("Use12HourTime", false)) {
+            hour = (hour % 12);
+            if (hour == 0) hour = 12;
+        }
 
         TimeEntry te = new TimeEntry("", 0, 0, 0, hour, min, sec, tenth);
         String displayTime = te.getTime(TimeEntry.getTimeFormat(mSharedPreferences.getInt("TimeFormatId", 0)));
