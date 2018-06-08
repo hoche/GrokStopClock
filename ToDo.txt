@@ -4,10 +4,10 @@ X Create Prefs button/page
 X Check shared prefs when displaying time
 X Make settings separator bar
 X Save/Back button for settings
-* Create History page or convert front page to scrollable ListView?
 X Find leaky objects - was string formatting in TimeEntry
 X Keep Nook awake when necessary
-* Wire up clear history page
+* Create History page or convert front page to scrollable ListView?
+* Wire up clear history button
 * Wire up car number requirement and put up page
 
 Prefs:
@@ -17,7 +17,7 @@ Prefs:
     X require car number to be entered checkbox
     ---
     * Show/Set disk file location
-    * Clear disk file
+    * Clear disk file/history
     ---
     * Upload host/IP address and port
     * Upload method (POST?)

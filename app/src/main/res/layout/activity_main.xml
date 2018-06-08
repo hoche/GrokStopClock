@@ -65,13 +65,12 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp" />
 
-    <TableLayout
-        android:layout_width="fill_parent"
+    <ListView
+        android:id="@+id/time_list"
         android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
         android:layout_below="@+id/clock_time"
-        android:layout_above="@+id/save_time_button_bar"
-        android:id="@+id/time_table">
-    </TableLayout>
+        android:layout_above="@+id/save_time_button_bar" />
 
     <LinearLayout
         android:id="@+id/save_time_button_bar"

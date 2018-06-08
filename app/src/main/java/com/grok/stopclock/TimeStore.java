@@ -152,6 +152,7 @@ public class TimeStore {
     public int getEntryCount() {
         return mTimes.size();
     }
+    public TimeEntry get(int position) { return mTimes.get(position); }
     public ArrayList<TimeEntry> getList() {
         return mTimes;
     }

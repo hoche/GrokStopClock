@@ -2,7 +2,7 @@
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
-    <TextView android:id="@+id/entry_number"
+    <TextView android:id="@+id/entry_id"
         android:textSize="35dp"
         android:paddingTop="5dp"
         android:paddingRight="10dp"

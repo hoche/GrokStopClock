@@ -21,6 +21,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class MainActivity extends Activity {
 
     private Calendar mCalendar;
     private TextView mTvClockTime;
+    private ListView mTimeList;
     private Timer mTimer;
 
     private TimeStore mTimeStore;
@@ -83,6 +85,10 @@ public class MainActivity extends Activity {
 
         mTimeStore = new TimeStore(this);
         mTimeStore.init();
+
+        mTimeList = (ListView) findViewById(R.id.time_list);
+        TimeListAdapter adapter = new TimeListAdapter(this, mTimeStore);
+        mTimeList.setAdapter(adapter);
     }
 
     @Override
@@ -109,37 +115,7 @@ public class MainActivity extends Activity {
     }
 
     protected void redrawTimeList() {
-
-        TableLayout table = (TableLayout) findViewById(R.id.time_table);
-        table.removeAllViews();
-
-        ArrayList<TimeEntry> timeList = mTimeStore.getList();
-        int entryCount = timeList.size();
-
-        LayoutInflater inflater = getLayoutInflater();
-
-        for (int i = 0; i < 9; i++) {
-            TableRow row = (TableRow) inflater.inflate(R.layout.time_table_row, table, false);
-
-            TextView entry_num = (TextView) row.findViewById(R.id.entry_number);
-            TextView entry_time = (TextView) row.findViewById(R.id.entry_time);
-
-            if (i == 0) {
-                // title row
-                row.setBackgroundColor(Color.GRAY);
-                entry_num.setText("ID");
-                entry_time.setText("Time");
-            } else if (i > entryCount) {
-                entry_num.setText("--");
-                entry_time.setText("--:--:--");
-            } else {
-                TimeEntry te = timeList.get(entryCount - i);
-                entry_num.setText(te.getId());
-                entry_time.setText(te.getTime(TimeEntry.getTimeFormat(mSharedPreferences.getInt("TimeFormatId", 0))));
-            }
-
-            table.addView(row);
-        }
+        //mTimeList.getAdapter().notifyDataSetChanged();
     }
 
     private void updateTime() {
