@@ -32,6 +32,18 @@ public class CustomListViewHolderLayout extends FrameLayout {
         super(context, attrs, defStyle);
     }
 
+    /*
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        if (getChildCount() == 1){
+            View childView = getChildAt(0);
+            childView.layout(left, top, right, bottom);
+        } else {
+            super.onLayout(changed, left, top, right, bottom);
+        }
+    }
+    */
+
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         //Debug Prints
