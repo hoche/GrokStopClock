@@ -13,29 +13,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-
-import com.grok.stopclock.LogUtil;
-import com.grok.stopclock.R;
-import com.grok.stopclock.SettingsActivity;
-import com.grok.stopclock.TimeEntry;
-import com.grok.stopclock.TimeStore;
-
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Formatter;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -83,7 +69,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LogUtil.INSTANCE.d(LOGTAG, "onCreate()");
+        //LogUtil.INSTANCE.d(LOGTAG, "onCreate()");
 
         int windowFlags = WindowManager.LayoutParams.FLAG_FULLSCREEN |
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
@@ -219,21 +205,17 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LogUtil.INSTANCE.d(LOGTAG, "onActivityResult");
         if (requestCode == SETTINGS_REQUEST) {
-            LogUtil.INSTANCE.d(LOGTAG, "SETTINGS_REQUEST");
             if (resultCode == RESULT_OK) {
-                LogUtil.INSTANCE.d(LOGTAG, "RESULT_OK");
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     boolean doDelete = extras.getBoolean("DELETE_DATAFILE");
-                    LogUtil.INSTANCE.d(LOGTAG, "Got DELETE_DATAFILE=" + doDelete);
                     if (doDelete == true) {
                         mTimeStore.deleteAndReinit();
-                        mTimeListAdapter.notifyDataSetChanged();
                     }
                 }
             }
+            mTimeListAdapter.notifyDataSetChanged();
         }
     }
 

@@ -9,7 +9,6 @@
 
 package com.grok.stopclock;
 
-import java.text.DecimalFormat;
 import java.util.Formatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
