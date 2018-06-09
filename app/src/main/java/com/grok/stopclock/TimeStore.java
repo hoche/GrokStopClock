@@ -28,6 +28,7 @@ public class TimeStore {
     private final String LOGTAG = "TimeStore";
 
     private Context mCtxt;
+    private File mDataFile;
     private FileOutputStream mFOut;
     private ArrayList<TimeEntry> mTimes;
 
@@ -79,10 +80,10 @@ public class TimeStore {
             return false;
         }
 
-        final File dataFile = new File(path, "data.txt");
-        if (!dataFile.exists()) {
+        mDataFile = new File(path, "data.txt");
+        if (!mDataFile.exists()) {
             try {
-                dataFile.createNewFile();
+                mDataFile.createNewFile();
                 isNew = true;
             } catch (IOException e) {
                 // TODO: Handle error with proper notification
@@ -90,7 +91,7 @@ public class TimeStore {
                 return false;
             }
         }
-        if (!dataFile.canWrite() || !dataFile.canRead()) {
+        if (!mDataFile.canWrite() || !mDataFile.canRead()) {
             // TODO: Handle error with proper notification
             LogUtil.INSTANCE.d(LOGTAG, "Couldn't read or write to data file.");
             return false;
@@ -100,16 +101,16 @@ public class TimeStore {
 
         // Read it and store the times into memory.
         try {
-            FileInputStream is = new FileInputStream(dataFile);
+            FileInputStream is = new FileInputStream(mDataFile);
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line;
+            String line = reader.readLine(); // read and discard the first line - it's headers
             int lineNo = 1;
             while ((line = reader.readLine())!= null) {
                 try {
                     TimeEntry te = new TimeEntry(line);
                     mTimes.add(te);
                 } catch (IllegalArgumentException e) {
-                    LogUtil.INSTANCE.d(LOGTAG, "Invalid entry at line " + lineNo);
+                    LogUtil.INSTANCE.d(LOGTAG, "Invalid entry at line " + lineNo + " : " + line);
                 }
                 ++lineNo;
             }
@@ -120,7 +121,7 @@ public class TimeStore {
         }
 
         try {
-            FileOutputStream os = new FileOutputStream(dataFile, true); // open for appending
+            FileOutputStream os = new FileOutputStream(mDataFile, true); // open for appending
             mFOut = os;
             // write header if necessary
             if (isNew) {
@@ -147,6 +148,20 @@ public class TimeStore {
                 LogUtil.INSTANCE.d(LOGTAG, "Couldn't append to data file.");
             }
         }
+    }
+
+    public void deleteAndReinit() {
+        LogUtil.INSTANCE.d(LOGTAG, "Deleting data file.");
+        try {
+            mFOut.close();
+            mFOut = null;
+            mDataFile.delete();
+            mDataFile = null;
+        } catch (IOException e) {
+            LogUtil.INSTANCE.d(LOGTAG, "Couldn't close data file.");
+        }
+        mTimes.clear();
+        init();
     }
 
     public int getEntryCount() {

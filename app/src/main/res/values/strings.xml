@@ -33,4 +33,7 @@
     <string name="other_separator">Other</string>
     <string name="require_car_number_cb_text">Require Car Number when Saving Time?</string>
 
+    <string name="clear_datafile_button_description">Clear datafile?</string>
+    <string name="clear_datafile_button_text">Clear</string>
+
 </resources>

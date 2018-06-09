@@ -43,6 +43,8 @@ public class MainActivity extends Activity {
 
     private final String LOGTAG = "MainActivity";
 
+    static final int SETTINGS_REQUEST = 1;
+
     private SharedPreferences mSharedPreferences;
 
     private Calendar mCalendar;
@@ -203,7 +205,7 @@ public class MainActivity extends Activity {
         int sec = mCalendar.get(mCalendar.SECOND);
         int tenth = mCalendar.get(mCalendar.MILLISECOND) / 100;
 
-        TimeEntry te = new TimeEntry(Integer.toString(mTimeStore.getEntryCount()),
+        TimeEntry te = new TimeEntry(Integer.toString(mTimeStore.getEntryCount() + 1),
                 year, month, day, hour, min, sec, tenth);
 
         mTimeStore.addToList(te);
@@ -212,7 +214,27 @@ public class MainActivity extends Activity {
 
     public void onSettingsButton(View view) {
         Intent settingsActivity = new Intent(getApplicationContext(), SettingsActivity.class);
-        startActivity(settingsActivity);
+        startActivityForResult(settingsActivity, SETTINGS_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogUtil.INSTANCE.d(LOGTAG, "onActivityResult");
+        if (requestCode == SETTINGS_REQUEST) {
+            LogUtil.INSTANCE.d(LOGTAG, "SETTINGS_REQUEST");
+            if (resultCode == RESULT_OK) {
+                LogUtil.INSTANCE.d(LOGTAG, "RESULT_OK");
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    boolean doDelete = extras.getBoolean("DELETE_DATAFILE");
+                    LogUtil.INSTANCE.d(LOGTAG, "Got DELETE_DATAFILE=" + doDelete);
+                    if (doDelete == true) {
+                        mTimeStore.deleteAndReinit();
+                        mTimeListAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        }
     }
 
 }

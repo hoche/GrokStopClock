@@ -1,7 +1,10 @@
 package com.grok.stopclock;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -21,6 +25,7 @@ public class SettingsActivity extends Activity {
     private final String LOGTAG = "SettingsActivity";
 
     private SharedPreferences mSharedPreferences;
+    private boolean mDeleteDataFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +86,30 @@ public class SettingsActivity extends Activity {
                         Toast.LENGTH_LONG).show();
             }
         });
+
+        // Initialize the clear data button
+        mDeleteDataFile = false;
+        Button btn = (Button)findViewById(R.id.clear_datafile_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(SettingsActivity.this)
+                        .setTitle("Confirm")
+                        .setMessage("Do you really want to clear the saved times?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                mDeleteDataFile = true;
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+            }
+        });
     }
 
     public void onBackButton(View view) {
+        Intent intent = new Intent();
+        intent.putExtra("DELETE_DATAFILE", mDeleteDataFile);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

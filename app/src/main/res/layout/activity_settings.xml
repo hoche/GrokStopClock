@@ -51,7 +51,8 @@
         android:paddingTop="5sp">
 
         <TextView
-            android:layout_width="350sp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:paddingLeft="20sp"
@@ -60,7 +61,8 @@
 
         <Spinner
             android:id="@+id/time_format_spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:entries="@array/time_format_items"
             android:key="prefList"
@@ -78,7 +80,8 @@
         android:paddingTop="5sp">
 
         <TextView
-            android:layout_width="350sp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:paddingLeft="20sp"
@@ -87,7 +90,8 @@
 
         <Spinner
             android:id="@+id/hours_format_spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:entries="@array/hours_format_items"
             android:key="prefList"
@@ -113,7 +117,8 @@
         android:paddingTop="5sp">
 
         <TextView
-            android:layout_width="350sp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:paddingLeft="20sp"
@@ -122,10 +127,39 @@
 
         <CheckBox
             android:id="@+id/require_car_number_cb"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:key="require_car_number_cb"
+            android:paddingRight="60sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80sp"
+        android:orientation="horizontal"
+        android:paddingBottom="5sp"
+        android:paddingTop="5sp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="20sp"
+            android:text="@string/clear_datafile_button_description"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/clear_datafile_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:text="@string/clear_datafile_button_text"
             android:paddingRight="60sp" />
 
     </LinearLayout>

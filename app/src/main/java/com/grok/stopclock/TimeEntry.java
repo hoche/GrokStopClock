@@ -73,7 +73,7 @@ public class TimeEntry {
     public final String toString() {
         StringBuilder sbuf = new StringBuilder();
         Formatter fmt = new Formatter(sbuf);
-        fmt.format("%s,%d:%02d:%02d.%d,%04d-%02d-%02d",
+        fmt.format("%s,%d:%02d:%02d.%d,%04d-%02d-%02d\n",
                 mId, mHour, mMin, mSec, mTenth, mYear, mMonth, mDay);
         return sbuf.toString();
     }
