@@ -55,18 +55,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonBar" />
 
-    <com.grok.stopclock.CustomListViewHolderLayout
-        android:layout_width="fill_parent"
+    <ListView
+        android:id="@+id/time_list"
         android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
         android:layout_below="@+id/digital_clock"
-        android:layout_above="@+id/save_time_button_bar" >
-
-        <ListView
-            android:id="@+id/time_list"
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent" />
-
-    </com.grok.stopclock.CustomListViewHolderLayout>
+        android:layout_above="@+id/save_time_button_bar" />
 
     <LinearLayout
         android:id="@+id/save_time_button_bar"

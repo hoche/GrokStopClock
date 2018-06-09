@@ -43,13 +43,13 @@ public class TimeListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         int entryCount = mTimeStore.getEntryCount();
-        LogUtil.INSTANCE.d(LOGTAG, "getCount() returned " + entryCount);
+        //LogUtil.INSTANCE.d(LOGTAG, "getCount() returned " + entryCount);
         return entryCount;
     }
 
     @Override
     public Object getItem(int position) {
-        LogUtil.INSTANCE.d(LOGTAG, "getItem()");
+        //LogUtil.INSTANCE.d(LOGTAG, "getItem()");
         // Note that we return the object from the array in reverse order
         // TODO: handle IndexOutOfBoundsException
         return mTimeStore.get(mTimeStore.getEntryCount() - position - 1);
@@ -57,13 +57,13 @@ public class TimeListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        LogUtil.INSTANCE.d(LOGTAG, "getItemId(" + position + ")");
+        //LogUtil.INSTANCE.d(LOGTAG, "getItemId(" + position + ")");
         return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LogUtil.INSTANCE.d(LOGTAG, "getView()");
+        //LogUtil.INSTANCE.d(LOGTAG, "getView()");
         TimeEntry te = (TimeEntry)getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view

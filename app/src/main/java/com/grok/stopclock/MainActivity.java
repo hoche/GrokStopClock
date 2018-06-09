@@ -61,8 +61,6 @@ public class MainActivity extends Activity {
     private int mDisplayFormatId;
     private int mDisplayHour;
     private int mDisplayMin;
-    private int mDisplaySec;
-    private int mDisplayTenth;
 
     final Handler h = new Handler(new Handler.Callback() {
         @Override
@@ -97,8 +95,6 @@ public class MainActivity extends Activity {
 
         mDisplayHour = 0;
         mDisplayMin = 0;
-        mDisplaySec = 0;
-        mDisplayTenth = 0;
 
         setContentView(R.layout.activity_main);
 
