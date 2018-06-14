@@ -6,12 +6,12 @@ X Make settings separator bar
 X Save/Back button for settings
 X Find leaky objects - was string formatting in TimeEntry
 X Keep Nook awake when necessary
+X Wire up clear history button
 X Create History page or convert front page to scrollable ListView?
   X implement notifyDataSetChanged or something
   - get actual scrolling to work on Nook (how?)
   X headers
   - ListView is constantly redrawing.
-* Wire up clear history button
 * Wire up car number requirement and put up page
 X Optimize time redrawing
 

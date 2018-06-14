@@ -21,6 +21,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,7 +39,6 @@ public class MainActivity extends Activity {
 
     private TextView mTvClockHours;
     private TextView mTvClockMinutes;
-    private TextView mTvClockMinutesSeparator;
     private TextView mTvClockSubTime;
 
     private ListView mTimeList;
@@ -46,9 +47,10 @@ public class MainActivity extends Activity {
 
     private TimeStore mTimeStore;
 
-    private int mDisplayFormatId;
     private int mDisplayHour;
     private int mDisplayMin;
+
+    private ClockUpdateTask mTimerTask = null;
 
     final Handler h = new Handler(new Handler.Callback() {
         @Override
@@ -79,7 +81,6 @@ public class MainActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         mSharedPreferences = getApplicationContext().getSharedPreferences("GrokStopClock", Context.MODE_PRIVATE);
-        mDisplayFormatId = mSharedPreferences.getInt("TimeFormatId", 0);
 
         mDisplayHour = 0;
         mDisplayMin = 0;
@@ -90,7 +91,6 @@ public class MainActivity extends Activity {
 
         mTvClockHours = (TextView) findViewById(R.id.clock_hours);
         mTvClockMinutes = (TextView) findViewById(R.id.clock_minutes);
-        mTvClockMinutesSeparator = (TextView) findViewById(R.id.clock_minutes_separator);
         mTvClockSubTime = (TextView) findViewById(R.id.clock_subtime);
 
         mTimeStore = new TimeStore(this);
@@ -101,25 +101,41 @@ public class MainActivity extends Activity {
         mTimeList.addHeaderView(header); // have to do this before setAdapter
         mTimeListAdapter = new TimeListAdapter(this, mTimeStore);
         mTimeList.setAdapter(mTimeListAdapter); // have to this after addHeaderView
+
+        mTimer = new Timer("ClockTimer");
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        // update every 100 milliseconds
-        mTimer = new Timer("ClockTimer");
-        mTimer.scheduleAtFixedRate(new ClockUpdateTask(), 100, 100);
-
+        rescheduleTimer(mSharedPreferences.getInt("TimeFormatId", 0));
         updateTime();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mTimerTask.cancel();
+    }
 
-        mTimer.cancel();
-        mTimer = null;
+    private void rescheduleTimer(int timeFormatId) {
+        if (mTimerTask != null) {
+            mTimerTask.cancel();
+            mTimerTask = null;
+        }
+        mTimerTask = new ClockUpdateTask();
+        switch (timeFormatId) {
+            case 1:
+                mTimer.scheduleAtFixedRate(mTimerTask, 100, 200); // update every 200 milliseconds
+                break;
+            case 2:
+                mTimer.scheduleAtFixedRate(mTimerTask, 100, 300); // update every 300 milliseconds
+                break;
+            case 0:
+            default:
+                mTimer.scheduleAtFixedRate(mTimerTask, 100, 1000);  // update once a second
+        }
     }
 
     private void updateTime() {
@@ -129,12 +145,13 @@ public class MainActivity extends Activity {
         int hour = mCalendar.get(mCalendar.HOUR_OF_DAY);
         int min = mCalendar.get(mCalendar.MINUTE);
         int sec = mCalendar.get(mCalendar.SECOND);
-        int tenth = mCalendar.get(mCalendar.MILLISECOND) / 100;
+        int milli = mCalendar.get(mCalendar.MILLISECOND);
 
         if (mSharedPreferences.getBoolean("Use12HourTime", false)) {
             hour = (hour % 12);
             if (hour == 0) hour = 12;
         }
+
 
         if (mDisplayHour != hour) {
             mDisplayHour = hour;
@@ -146,35 +163,39 @@ public class MainActivity extends Activity {
             mTvClockMinutes.setText(String.format("%02d", mDisplayMin));
         }
 
+
         int timeFormatId = mSharedPreferences.getInt("TimeFormatId", 0);
-        String newTime;
         switch (timeFormatId) {
             case 1:  // tenths of a second
-                if (mDisplayFormatId != timeFormatId) {
-                    mTvClockMinutesSeparator.setText(":");
-                }
-                newTime = String.format("%02d.%d", sec, tenth);
+                mTvClockSubTime.setText(String.format(":%02d.%d", sec, milli/100));
                 break;
 
             case 2:  // hundredths of a minute
-                if (mDisplayFormatId != timeFormatId) {
-                    mTvClockMinutesSeparator.setText(".");
-                }
-                newTime = String.format("%02d", ((sec * 1000) + tenth)/600);
+                mTvClockSubTime.setText(String.format(".%02d", ((sec * 1000) + milli) / 600));  // GC every 7 seconds (hour/min separate field up top)
+                /*  GC every 3.5 seconds BAD BAD
+                mTvClockSubTime.setText(String.format("%d:%02d.%02d", mDisplayHour, mDisplayMin, ((sec * 1000) + tenth) / 600));
+                StringBuilder sb = new StringBuilder(10);
+                DecimalFormat hf = new DecimalFormat("?0");
+                DecimalFormat mf = new DecimalFormat("00");
+                DecimalFormat hunf = new DecimalFormat("00");
+                sb.append(hf.format(mDisplayHour)).append(':').append(mf.format(mDisplayMin)).append('.').append(hunf.format(((sec * 1000) + tenth) / 600));
+                mTvClockSubTime.setText(sb.toString());
+                */
+                /*
+                // GC every six seconds or so
+                mTvClockSubTime.setText(String.format("%d:%02d.%02d", mDisplayHour, mDisplayMin, ((sec * 1000) + milli) / 600));
+                */
                 break;
 
             case 0:  // seconds only
             default:
-                if (mDisplayFormatId != timeFormatId) {
-                    mTvClockMinutesSeparator.setText(":");
-                }
-                newTime = String.format("%02d", sec + ((tenth >= 5) ? 1 : 0) );
+                mTvClockSubTime.setText(String.format(":%02d", sec + ((milli >= 500) ? 1 : 0)));
+                break;
         }
 
-        if (mTvClockSubTime.getText().toString() != newTime) {
-            mTvClockSubTime.setText(newTime);
-        }
-        mDisplayFormatId = timeFormatId;
+        // Force a gc to keep things smooth. Otherwise garbage builds up and the gc runs
+        // every few seconds and we get a perceptible stutter in our time display.
+        System.gc();
     }
 
     /**
@@ -217,6 +238,7 @@ public class MainActivity extends Activity {
             }
             mTimeListAdapter.notifyDataSetChanged();
         }
+        rescheduleTimer(mSharedPreferences.getInt("TimeFormatId", 0));
     }
 
 }
