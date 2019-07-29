@@ -1,0 +1,66 @@
+1.0 Introduction
+
+This was written to run on early Nook PaperWhites.
+
+To compile for that, you need to have an early SDK. For some
+reason, later SDK's will not create proper packages and the Nook
+barfs when you try to install.
+
+2.0 Known working Android Studio version
+
+You can use Android Studio 2.3.2, which is still available on
+at https://developer.android.com/studio/archive.
+
+Download zipfile.
+Unpack & Install, following normal instructions.
+
+Check out the GrokStopClock code from github. You can use the built-in
+VCS tools if you like.
+
+Open the project in AndroidStudio. It will immediately try to do
+a Gradle sync, which will fail since you don't have the correct
+SDK installed (as indicated in the project's app/build.gradle file).
+
+It'll complain about not having "android-7" installed.
+
+If it put a message in the "Messages" box, click on that to open
+up the SDK manager and it'll download the Platform 7 version for
+you.
+
+If not, you can go to Tools->Android->SDK Manager and download
+"Android 2.1 (Eclair) API 7".
+       
+Next it'll fail because it doesn't have Build-Tools 23.0.1.
+Do essentially the same thing, clicking on the message and letting
+it install Build-Tools 23.0.1. (It might skip this and go directly
+to Build-Tools 25.0.0 because I updated that in the app/build.gradle
+file.)
+   
+It'll do another Gradle sync and then rebuild and index.
+   
+It may complain that you have an old version of Gradle and the Gradle
+Plugin. You can let it update to *SOME* later versions of Gradle, the
+Gradle Plugin, and Build-Tools. I have currently have the app set to
+run with Plugin 2.3.2, Gradle 3.3, and Build-Tools version 25.0.0.
+
+You cannot go to the latest versions of the tools as somewhere along
+the line Android/Google changed how the packages are structured and
+apps built with those will not work. I do not know exactly where
+the cutoff is.
+
+
+3.0 ADB
+
+Next you'll need to deal with adb.
+
+The Android Studio installer should have added adb as a binary. If not
+you should be able to get it via normal package utils. For instance, 
+on Ubuntu/Debian:
+
+sudo apt-get install adb.
+
+For Ubuntu/Debian, it'll also put you in the plugdev group so you can
+read/write to the USB port, but you may have to log out and log back in
+after running the installer to get your environment to pick up your
+new group privileges.
+
