@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_version">v1.2b1</string>
+    <string name="app_version">v1.2b3</string>
     <string name="app_name">Grok StopClock</string>
 
     <string name="app_dir_name">GrokStopClock</string>
